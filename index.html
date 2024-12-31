@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9fb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+            margin: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+        .service {
+            background: #f8f9fc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .service:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .service h2 {
+            margin: 0;
+            color: #495057;
+            font-weight: 600;
+            font-size: 1.8em;
+        }
+        .status {
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .status.active {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .status.inactive {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .status span {
+            margin-left: 8px;
+        }
+        .service-details {
+            display: none;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .service:hover .service-details {
+            display: block;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+        }
+        .footer span {
+            color: #007bff;
+            font-weight: 600;
+        }
+        .service ul li {
+            margin: 8px 0;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .uptime {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Service Overview</h1>
+        <div class="service">
+            <div class="service-header">
+                <h2>Nginx</h2>
+                <div class="status active">
+                    &#x2714; <span>Running</span>
+                </div>
+            </div>
+            <div class="service-details">
+                <p><strong>Image:</strong> nginx:latest</p>
+                <p><strong>Container Name:</strong> nginx-container</p>
+                <p><strong>Ports:</strong> 8080:80</p>
+                <p><strong>Healthcheck:</strong> Enabled</p>
+                <div class="button-container">
+                    <button onclick="restartService('Nginx')">Restart</button>
+                </div>
+                <div class="uptime" id="nginx-uptime">Uptime: 2h 30m</div>
+            </div>
+        </div>
+        <div class="service">
+            <div class="service-header">
+                <h2>MySQL</h2>
+                <div class="status active">
+                    &#x2714; <span>Running</span>
+                </div>
+            </div>
+            <div class="service-details">
+                <p><strong>Image:</strong> mysql:8.0</p>
+                <p><strong>Container Name:</strong> mysql-container</p>
+                <p><strong>Ports:</strong> 3305:3306</p>
+                <div class="button-container">
+                    <button onclick="restartService('MySQL')">Restart</button>
+                </div>
+                <div class="uptime" id="mysql-uptime">Uptime: 5h 10m</div>
+            </div>
+        </div>
+        <div class="service">
+            <div class="service-header">
+                <h2>RabbitMQ</h2>
+                <div class="status active">
+                    &#x2714; <span>Running</span>
+                </div>
+            </div>
+            <div class="service-details">
+                <p><strong>Image:</strong> rabbitmq:management</p>
+                <p><strong>Container Name:</strong> rabbitmq-container</p>
+                <div class="button-container">
+                    <button onclick="restartService('RabbitMQ')">Restart</button>
+                </div>
+                <div class="uptime" id="rabbitmq-uptime">Uptime: 1h 45m</div>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; 2024 Service Overview. All rights reserved. <br>
+            Developed by <span>Naza dan Jati</span>
+        </div>
+    </div>
+
+    <script>
+        function restartService(serviceName) {
+            alert('${service} is being restarted...');
+            setTimeout(() => {
+                alert('${service} has been restarted successfully!');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
